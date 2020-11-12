@@ -1,11 +1,27 @@
-#!/usr/bin/python
+from constants.messages import *
+from services.annotation_handler import AnnotationHandler
+from services.checkers import check_folder_exists
+from services.checkers import check_file_exists
+import argparse
 
-import sys
 
+def main() -> None:
+    parser = argparse.ArgumentParser(description=PROGRAM_DESCRIPTION)
+    try:
+        parser.add_argument('sqlite', help=ARGUMENT_SQLITE_HELP, type=check_file_exists)
+        parser.add_argument('-d', '--directory', help=DIRECTORY_HELP, type=check_folder_exists)
+        parser.add_argument('-w', '--word', help=WORD_HELP, action="store_const", const="word")
+        parser.add_argument('-t', '--text', help=TEXT_HELP, action="store_const", const="text")
+        args = parser.parse_args()
 
-def main():
-    for arg in sys.argv[1:]:
-        print(arg)
+        annotation_handler = AnnotationHandler(args.sqlite, args.word, args.text, args.directory)
+        annotation_handler.handle()
+
+    except FileNotFoundError as not_found:
+        print("File '{}' not found".format(not_found))
+
+    except NotADirectoryError as not_found:
+        print("Directory '{}' does not exist".format(not_found))
 
 
 if __name__ == "__main__":

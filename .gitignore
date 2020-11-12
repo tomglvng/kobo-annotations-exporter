@@ -131,8 +131,6 @@ dmypy.json
 #PyCharm
 .idea/
 
-#sqlite databases folder
 databases/
-
-#todos folder
 todos/
+exports/
