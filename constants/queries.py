@@ -15,7 +15,7 @@ ANNOTATIONS_RETRIEVER = "SELECT  " \
                         "Bookmark.Annotation AS comment," \
                         "content.Title AS chapter," \
                         "COALESCE(Bookmark.DateModified,Bookmark.DateCreated) AS last_update " \
-                        "FROM Bookmark INNER JOIN content ON Bookmark.VolumeID = content.ContentID " \
+                        "FROM Bookmark INNER JOIN content ON Bookmark.ContentID = content.ContentID " \
                         "WHERE (Text IS NOT NULL OR Annotation IS NOT NULL) " \
                         " AND Bookmark.VolumeID='{}'" \
                         "ORDER BY content.title ASC"
