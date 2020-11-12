@@ -1,4 +1,5 @@
 PROGRAM_DESCRIPTION = "Export annotations from Kobo sqlite database"
 ARGUMENT_SQLITE_HELP = "Sqlite file location"
 WORD_HELP = "Export to Microsoft Word documents"
+TEXT_HELP = "Export to text files"
 DIRECTORY_HELP = "Define the export directory ('exports' by default)"

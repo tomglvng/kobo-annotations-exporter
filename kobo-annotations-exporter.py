@@ -11,9 +11,10 @@ def main() -> None:
         parser.add_argument('sqlite', help=ARGUMENT_SQLITE_HELP, type=check_file_exists)
         parser.add_argument('-d', '--directory', help=DIRECTORY_HELP, type=check_folder_exists)
         parser.add_argument('-w', '--word', help=WORD_HELP, action="store_const", const="word")
+        parser.add_argument('-t', '--text', help=TEXT_HELP, action="store_const", const="text")
         args = parser.parse_args()
 
-        annotation_handler = AnnotationHandler(args.sqlite, args.word, args.directory)
+        annotation_handler = AnnotationHandler(args.sqlite, args.word, args.text, args.directory)
         annotation_handler.handle()
 
     except FileNotFoundError as not_found:
