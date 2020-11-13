@@ -1,32 +1,34 @@
 # kobo-annotations-exporter
 
 Export your annotations from your Kobo in a more readeable format.
-* Version: 1.0
-* Date: 2020-11-11
 * Developer: Thomas Galvaing
 * License: the MIT License (MIT)
 
 ## Install
-Make sure you have Python3 and Pip on your machine and:
+Make sure you have Python3 and Pip on your machine then:
 
-`pip3 install -r requirements.txt `
+`pip install -r requirements.txt `
 
 Plug you Kobo and localise the **sqlite file** (usually named **KoboReader.sqlite**)
 
 ## Usage
 
 ```bash
-$ # print annotations on stdout
+$ # print annotations in stdout
 $ python kobo-annotations-exporter.py KoboReader.sqlite
 
-$ # print annotations on text files
-$ python kobo-annotations-exporter.py KoboReader.sqlite --text
+$ # print annotations in docx files
+$ python kobo-annotations-exporter.py KoboReader.sqlite --format word
 
-$ # print annotations on Microsoft Word files
-$ python kobo-annotations-exporter.py KoboReader.sqlite --word
+$ # print annotations in text files
+$ python kobo-annotations-exporter.py KoboReader.sqlite --format text
 
 $ # change export directory
 $ python kobo-annotations-exporter.py KoboReader.sqlite --directory export_directory
 
-$ # print the help
+$ # print help
 $ python kobo-annotations-exporter.py --help
+````
+
+## Contributions
+This project is currently under development, feel free to contribute, report bugs or propose suggestions : any help is welcome ! 
