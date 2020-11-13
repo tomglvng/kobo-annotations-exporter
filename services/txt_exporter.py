@@ -11,7 +11,7 @@ class TextExporter:
             books = retrieved_annotations[author]
             for book in books:
                 book_file_name = "{}/{}.txt".format(author_directory, sanitize(book))
-                book_file = Path(book_file_name).open(mode="a", encoding="utf-8")
+                book_file = Path(book_file_name).open(mode="a", encoding="utf-16")
                 chapters = books[book]
                 for chapter in chapters:
                     book_file.write("\n\n{}\n".format(chapter))
