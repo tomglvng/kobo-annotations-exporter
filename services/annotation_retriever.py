@@ -1,8 +1,8 @@
 import sqlite3
 from constants import colmuns
 from constants import queries
-from model.annotation import Annotation
-from model.book import Book
+from models.annotation import Annotation
+from models.book import Book
 
 
 class AnnotationRetriever:
