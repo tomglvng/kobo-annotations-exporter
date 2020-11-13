@@ -1,6 +1,6 @@
 from services.annotation_retriever import AnnotationRetriever
 from services.console_exporter import ConsoleExporter
-from services.txt_exporter import TextExporter
+from services.text_exporter import TextExporter
 from services.word_exporter import WordExporter
 
 
