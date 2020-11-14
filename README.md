@@ -5,9 +5,13 @@ Export your annotations from your Kobo device into docx files and more !
 * License: the MIT License (MIT)
 
 ## Install
-Make sure you have Python3 and Pip on your machine then:
+Make sure you have Python3 3.7 and above) and pip on your machine :
 
-`pip install -r requirements.txt `
+`sudo apt install python3`
+`sudo apt install python3-pip`
+
+Then :
+`pip3 install -r requirements.txt`
 
 Plug you Kobo and localise the **sqlite file** (usually named **KoboReader.sqlite**)
 
