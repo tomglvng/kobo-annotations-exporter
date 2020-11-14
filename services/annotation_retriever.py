@@ -9,6 +9,12 @@ class AnnotationRetriever:
     def __init__(self, sqlite_file_name: str) -> None:
         self.connection = sqlite3.connect(sqlite_file_name)
 
+    """
+        Return books.
+        Format of the return data structure :
+        {book1: Book, book2: Book},
+    """
+
     def __get_books(self) -> dict:
         cursor = self.connection.cursor()
         books = {}
@@ -20,6 +26,21 @@ class AnnotationRetriever:
         cursor.close()
 
         return books
+
+    """
+       Return annotations by chapter and by book.
+       Format of the return data structure :
+       {
+            book1: str, {
+                chapter1: str, {annotation1: Annotation,annotation2: Annotation,},
+                chapter2: str, {annotation1: Annotation,annotation2: Annotation,},
+            },
+            book2: str, {
+                chapter1: str, {annotation1: Annotation,annotation2: Annotation,},
+                chapter2: str, {annotation1: Annotation,annotation2: Annotation,},
+            },
+       },
+       """
 
     def __get_annotations(self, book_id: str) -> dict:
         cursor = self.connection.cursor()
@@ -36,6 +57,32 @@ class AnnotationRetriever:
         cursor.close()
 
         return annotations
+
+    """
+    Return annotations by book and by author.
+    Format of the return data structure :
+    {
+        author1: str, {
+            book1: str, {
+                chapter1: str, {annotation1: Annotation,annotation2: Annotation,},
+                chapter2: str, {annotation1: Annotation,annotation2: Annotation,},
+            },
+            book2: str, {
+                chapter1: str, {annotation1: Annotation,annotation2: Annotation,},
+                chapter2: str, {annotation1: Annotation,annotation2: Annotation,},
+            },
+       },
+       author2: str, {
+            book1: str, {
+                chapter1: str, {annotation1: Annotation,annotation2: Annotation,},
+                chapter2: str, {annotation1: Annotation,annotation2: Annotation,},
+            },
+            book2: str, {
+                chapter1: str, {annotation1: Annotation,annotation2: Annotation,},
+                chapter2: str, {annotation1: Annotation,annotation2: Annotation,},
+            },
+       },
+    """
 
     def retrieve(self) -> dict:
         retrieved_annotations = {}

@@ -4,7 +4,7 @@ from pathlib import Path
 
 class TextExporter:
     @staticmethod
-    def export(retrieved_annotations, directory) -> None:
+    def export(retrieved_annotations: dict, directory: str) -> None:
         for author in retrieved_annotations:
             author_directory = "{}/{}/".format(directory, sanitize(author))
             Path(author_directory).mkdir(parents=True, exist_ok=True)
