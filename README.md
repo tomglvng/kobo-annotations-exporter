@@ -5,7 +5,7 @@ Export your annotations from your Kobo device into docx files and more !
 * License: the MIT License (MIT)
 
 ## Install
-Make sure you have Python3 3.7 and above) and pip on your machine :
+Make sure you have Python3 (3.7 and above) and pip on your machine :
 
 `sudo apt install python3`
 `sudo apt install python3-pip`
