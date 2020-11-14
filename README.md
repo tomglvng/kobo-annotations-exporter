@@ -1,6 +1,6 @@
 # kobo-annotations-exporter
 
-Export your annotations from your Kobo device into files.
+Export your annotations from your Kobo device into docx files and more !
 * Developer: Thomas Galvaing
 * License: the MIT License (MIT)
 
