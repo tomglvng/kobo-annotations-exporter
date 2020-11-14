@@ -1,4 +1,4 @@
-class Annotation:
+class AnnotationModel:
     def __init__(self, text: str, comment: str, last_update: str):
         self.text = text
         self.comment = comment
