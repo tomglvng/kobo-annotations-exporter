@@ -1,6 +1,6 @@
 # kobo-annotations-exporter
 
-Export your annotations from your Kobo in a more readeable format.
+Export your annotations from your Kobo device into files.
 * Developer: Thomas Galvaing
 * License: the MIT License (MIT)
 
@@ -32,3 +32,4 @@ $ python kobo-annotations-exporter.py --help
 
 ## Contributions
 This project is currently under development, feel free to contribute, report bugs or propose suggestions : any help is welcome ! 
+I assume that the database structure is the same for all Kobo devices. Maybe it is not true, but I can't check. If your device is different from mine (Kobo Libra H2O), feel free to send me your **KoboReader.sqlite**. I would adapt my code if needed.
