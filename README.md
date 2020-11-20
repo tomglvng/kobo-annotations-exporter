@@ -19,19 +19,19 @@ Plug you Kobo and localise the **sqlite file** (usually named **KoboReader.sqlit
 
 ```bash
 $ # print annotations in stdout
-$ python kobo-annotations-exporter.py KoboReader.sqlite
+$ python3 kobo-annotations-exporter.py KoboReader.sqlite
 
 $ # print annotations in docx files
-$ python kobo-annotations-exporter.py KoboReader.sqlite --format word
+$ python3 kobo-annotations-exporter.py KoboReader.sqlite --format word
 
 $ # print annotations in text files
-$ python kobo-annotations-exporter.py KoboReader.sqlite --format text
+$ python3 kobo-annotations-exporter.py KoboReader.sqlite --format text
 
 $ # change export directory
-$ python kobo-annotations-exporter.py KoboReader.sqlite --directory export_directory
+$ python3 kobo-annotations-exporter.py KoboReader.sqlite --directory export_directory
 
 $ # print help
-$ python kobo-annotations-exporter.py --help
+$ python3 kobo-annotations-exporter.py --help
 ````
 
 ## Contributions
