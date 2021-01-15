@@ -1,6 +1,6 @@
+from pypika import Query, Table, Field, Order
 from sqlite3 import Connection
 from models.book import BookModel
-
 
 class BookRepository:
     def __init__(self, connection: Connection):
@@ -11,15 +11,10 @@ class BookRepository:
 
     @staticmethod
     def __get_base_query() -> str:
-        return "SELECT ContentId, title, Attribution " \
-               "FROM content " \
-               "WHERE title IS NOT NULL " \
-               "AND title <> '' " \
-               "AND Attribution IS NOT NULL " \
-               "AND Attribution <> '' " \
-               "AND ReadStatus <> 0 " \
-               "ORDER BY ContentId ASC"
-
+        
+        return str(Query.from_('content').select('ContentId', 'title', 'Attribution').where(Field('title').notnull()).where(Field('title') != '').where(Field('Attribution').notnull()).where(Field('Attribution') != '').where(Field('ReadStatus') != 0).orderby(
+    Field('ContentId'), order=Order.asc))
+    
     def get_already_opened_books(self) -> dict:
         books = {}
         for row in self.connection.cursor().execute(self.__get_base_query()):

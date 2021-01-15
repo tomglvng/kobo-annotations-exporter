@@ -1,3 +1,4 @@
 python-docx
 python-dateutil
 sanitize_filename
+pypika
