@@ -29,10 +29,14 @@ def main() -> None:
                         '-s',
                         type=check_date,
                         help="Export updated annotations since a given date (format: YYYY-MM-DD HH:MM:SS", )
+    parser.add_argument('--books',
+                        '-b',
+                        action='store_true',
+                        help='List books')
 
     args = parser.parse_args()
 
-    annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since)
+    annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since, args.books)
     annotation_handler.handle()
 
 
