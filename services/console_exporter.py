@@ -1,6 +1,8 @@
-class ConsoleExporter:
-    @staticmethod
-    def export(retrieved_annotations: dict) -> None:
+from services.exporter_interface import ExporterInterface
+
+
+class ConsoleExporter(ExporterInterface):
+    def export(self, retrieved_annotations: dict, directory: str) -> None:
         for author in retrieved_annotations:
             print('\n' + '-' * 10)
             print('-' * 1 + author)

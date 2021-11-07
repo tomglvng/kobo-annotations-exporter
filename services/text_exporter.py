@@ -1,10 +1,11 @@
 from sanitize_filename import sanitize
 from pathlib import Path
 
+from services.exporter_interface import ExporterInterface
 
-class TextExporter:
-    @staticmethod
-    def export(retrieved_annotations: dict, directory: str) -> None:
+
+class TextExporter(ExporterInterface):
+    def export(self, retrieved_annotations: dict, directory: str) -> None:
         for author in retrieved_annotations:
             author_directory = "{}/{}/".format(directory, sanitize(author))
             Path(author_directory).mkdir(parents=True, exist_ok=True)

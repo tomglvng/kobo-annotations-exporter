@@ -31,6 +31,7 @@ def main() -> None:
                         help="Export updated annotations since a given date (format: YYYY-MM-DD HH:MM:SS", )
 
     args = parser.parse_args()
+
     annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since)
     annotation_handler.handle()
 
