@@ -1,0 +1,2 @@
+class UserAsksforEndOfInteractiveModeException(Exception):
+    pass
