@@ -3,6 +3,22 @@ from services.annotation_handler import AnnotationHandler
 from services.argument_checker import check_date
 from services.argument_checker import check_file_existence
 from services.argument_checker import check_folder_existence
+from services.interactive_prompter import InteractivePrompter
+from exceptions.user_asks_for_end_of_interactive_mode_exception import UserAsksforEndOfInteractiveModeException
+from services.annotation_retriever import AnnotationRetriever
+from services.exporter_interface import ExporterInterface
+from services.word_exporter import WordExporter
+from services.text_exporter import TextExporter
+from services.console_exporter import ConsoleExporter
+
+
+def instanciate_exporter(export_type: str) -> ExporterInterface:
+    if "word" == export_type:
+        return WordExporter()
+    if "text" == export_type:
+        return TextExporter()
+
+    return ConsoleExporter()
 
 
 def main() -> None:
@@ -11,7 +27,12 @@ def main() -> None:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
+    parser.add_argument('--interactive',
+                        '-i',
+                        action='store_true',
+                        help='Interactive mode')
     parser.add_argument('sqlite',
+                        action='store_true',
                         type=check_file_existence,
                         help="Define the sqlite file location")
     parser.add_argument('--format',
@@ -31,9 +52,27 @@ def main() -> None:
                         help="Export updated annotations since a given date (format: YYYY-MM-DD HH:MM:SS", )
 
     args = parser.parse_args()
+    print(args)
 
-    annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since)
-    annotation_handler.handle()
+    if not args.interactive:
+        if args.sqlite is None or args.format is None or args.directory is None:
+            parser.error('without -2, *both* -3 <a> *and* -4 <b> are required')
+
+    try:
+        if args.interactive:
+            interactive_prompter = InteractivePrompter()
+            interactive_prompter.ask_information()
+            retriever = AnnotationRetriever(interactive_prompter.sqlite)
+            annotations = retriever.retrieve(args.since)
+            filtered_annotations = interactive_prompter.ask_books(annotations)
+            exporter = instanciate_exporter(interactive_prompter.format)
+            exporter.export(filtered_annotations, interactive_prompter.directory)
+        else:
+            annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since)
+            annotation_handler.handle()
+    except UserAsksforEndOfInteractiveModeException:
+        print("Bye.")
+        exit()
 
 
 if __name__ == "__main__":
