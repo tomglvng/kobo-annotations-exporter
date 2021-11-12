@@ -27,8 +27,7 @@ class AnnotationHandler:
         self.export_since = export_since
 
     def handle(self) -> None:
-        exporter = instanciate_exporter(self.export_format)
         retriever = AnnotationRetriever(self.sqlite_file_name)
-
         annotations = retriever.retrieve(self.export_since)
+        exporter = instanciate_exporter(self.export_format)
         exporter.export(annotations, self.export_directory)

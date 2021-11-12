@@ -3,6 +3,9 @@ from services.annotation_handler import AnnotationHandler
 from services.argument_checker import check_date
 from services.argument_checker import check_file_existence
 from services.argument_checker import check_folder_existence
+from services.interactive_prompter import InteractivePrompter
+from exceptions.user_asks_for_end_of_interactive_mode_exception import UserAsksforEndOfInteractiveModeException
+from services.annotation_retriever import AnnotationRetriever
 
 
 def main() -> None:
@@ -10,7 +13,10 @@ def main() -> None:
         description="Export annotations from Kobo sqlite database",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-
+    parser.add_argument('--interactive',
+                        '-i',
+                        action='store_true',
+                        help='Interactive mode')
     parser.add_argument('sqlite',
                         type=check_file_existence,
                         help="Define the sqlite file location")
@@ -32,8 +38,49 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since)
-    annotation_handler.handle()
+    try:
+        if args.interactive:
+            print(args.interactive)
+            interactive_prompter = InteractivePrompter()
+            interactive_prompter.ask_information()
+
+            retriever = AnnotationRetriever(interactive_prompter.sqlite)
+            annotations = retriever.retrieve(args.since)
+
+            books_title = interactive_prompter.ask_books(annotations)
+            print(books_title)
+
+            # TODO: change data structure maybe ?
+            # TODO: integration choice list of books
+            # TODO: uuid.uuid4() for idbook
+
+            """
+                Format of the returned data structure :
+                {
+                    uuid_author: id {
+                        name: str,
+                        books: [
+                            uuid_book: id {
+                                title: str,
+                                chapters:[
+                                    chapter: str, {annotation: Annotation},
+                                ]
+                            }
+                        ]
+                    }
+                },
+                """
+
+
+
+
+
+        else:
+            annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since)
+            annotation_handler.handle()
+    except UserAsksforEndOfInteractiveModeException:
+        print("Bye.")
+        exit()
 
 
 if __name__ == "__main__":
