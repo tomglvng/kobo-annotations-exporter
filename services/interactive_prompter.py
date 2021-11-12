@@ -11,6 +11,7 @@ class InteractivePrompter:
     AVAILABLE_EXPORT_FORMATS = ["console", "word", "text"]
 
     def __init__(self) -> None:
+        self.books_selection = []
         self.end_of_prompt = False
         self.sqlite = ""
         self.format = "console"
@@ -25,9 +26,24 @@ class InteractivePrompter:
                 titles[i] = {
                     'author': author,
                     'title': book}
+                print("{0} : {1} - {2}".format(i, book, author))
                 i = i + 1
 
-        return titles
+        self.__prompt_books_selection()
+
+        filtered_annotation = {}
+
+        for indice in titles:
+            if indice in self.books_selection:
+                selected_book = titles[indice].get('title')
+                selected_author = titles[indice].get('author')
+                if selected_author not in filtered_annotation:
+                    filtered_annotation[selected_author] = {}
+                if selected_book not in filtered_annotation[selected_author]:
+                    filtered_annotation[selected_author][selected_book] = {}
+                filtered_annotation[selected_author][selected_book] = annotations[selected_author].get(selected_book)
+
+        return filtered_annotation
 
     def ask_information(self):
         print("###############################################################################")
@@ -46,10 +62,14 @@ class InteractivePrompter:
                 self.sqlite = "databases/database.sqlite"
                 self.__prompt_export_format()
                 self.__prompt_export_directory_location()
-
                 self.__set_end_of_prompt()
             except (SqliteFileNotFoundException, ExportFormatNotRecognized, ExportDirectoryNotFound) as e:
                 print(e.message)
+
+    def __prompt_books_selection(self) -> None:
+        raw_books_selection = self.__prompt_text_or_quit(
+            "Which books do you want to export ? Select books by typing their number separated by space. Press 'Enter' for exporting all")
+        self.books_selection = [int(x) for x in raw_books_selection.split(" ")]
 
     def __prompt_sqlite_location(self) -> None:
         raw_sqlite = self.__prompt_text_or_quit("First of all, where is your Kobo sqlite file ?")

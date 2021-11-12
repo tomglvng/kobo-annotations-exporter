@@ -6,6 +6,19 @@ from services.argument_checker import check_folder_existence
 from services.interactive_prompter import InteractivePrompter
 from exceptions.user_asks_for_end_of_interactive_mode_exception import UserAsksforEndOfInteractiveModeException
 from services.annotation_retriever import AnnotationRetriever
+from services.exporter_interface import ExporterInterface
+from services.word_exporter import WordExporter
+from services.text_exporter import TextExporter
+from services.console_exporter import ConsoleExporter
+
+
+def instanciate_exporter(export_type: str) -> ExporterInterface:
+    if "word" == export_type:
+        return WordExporter()
+    if "text" == export_type:
+        return TextExporter()
+
+    return ConsoleExporter()
 
 
 def main() -> None:
@@ -43,38 +56,11 @@ def main() -> None:
             print(args.interactive)
             interactive_prompter = InteractivePrompter()
             interactive_prompter.ask_information()
-
             retriever = AnnotationRetriever(interactive_prompter.sqlite)
             annotations = retriever.retrieve(args.since)
-
-            books_title = interactive_prompter.ask_books(annotations)
-            print(books_title)
-
-            # TODO: change data structure maybe ?
-            # TODO: integration choice list of books
-            # TODO: uuid.uuid4() for idbook
-
-            """
-                Format of the returned data structure :
-                {
-                    uuid_author: id {
-                        name: str,
-                        books: [
-                            uuid_book: id {
-                                title: str,
-                                chapters:[
-                                    chapter: str, {annotation: Annotation},
-                                ]
-                            }
-                        ]
-                    }
-                },
-                """
-
-
-
-
-
+            filtered_annotations = interactive_prompter.ask_books(annotations)
+            exporter = instanciate_exporter(interactive_prompter.format)
+            exporter.export(filtered_annotations, interactive_prompter.directory)
         else:
             annotation_handler = AnnotationHandler(args.sqlite, args.format, args.directory, args.since)
             annotation_handler.handle()
