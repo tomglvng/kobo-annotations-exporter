@@ -26,11 +26,13 @@ def main() -> None:
         description="Export annotations from Kobo sqlite database",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
+
     parser.add_argument('--interactive',
                         '-i',
                         action='store_true',
                         help='Interactive mode')
     parser.add_argument('sqlite',
+                        action='store_true',
                         type=check_file_existence,
                         help="Define the sqlite file location")
     parser.add_argument('--format',
@@ -50,10 +52,14 @@ def main() -> None:
                         help="Export updated annotations since a given date (format: YYYY-MM-DD HH:MM:SS", )
 
     args = parser.parse_args()
+    print(args)
+
+    if not args.interactive:
+        if args.sqlite is None or args.format is None or args.directory is None:
+            parser.error('without -2, *both* -3 <a> *and* -4 <b> are required')
 
     try:
         if args.interactive:
-            print(args.interactive)
             interactive_prompter = InteractivePrompter()
             interactive_prompter.ask_information()
             retriever = AnnotationRetriever(interactive_prompter.sqlite)
